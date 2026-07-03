@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
+
+const SUBMIT_LEAD_URL = 'https://functions.poehali.dev/3ecfa382-f353-47d9-b18e-e85fb77cce64';
 
 const NAV = [
   { id: 'hero', label: 'Головна' },
@@ -78,9 +81,36 @@ const QUIZ = [
 ];
 
 const Index = () => {
+  const { toast } = useToast();
   const [active, setActive] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>([null, null, null]);
   const [finished, setFinished] = useState(false);
+  const [leadName, setLeadName] = useState('');
+  const [leadPhone, setLeadPhone] = useState('');
+  const [sending, setSending] = useState(false);
+
+  const submitLead = async () => {
+    if (!leadName.trim() || !leadPhone.trim()) {
+      toast({ title: "Заповніть ім'я та телефон", variant: 'destructive' });
+      return;
+    }
+    setSending(true);
+    try {
+      const res = await fetch(SUBMIT_LEAD_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: leadName, phone: leadPhone, source: 'Сайт NMTHub' }),
+      });
+      if (!res.ok) throw new Error();
+      toast({ title: 'Заявку надіслано!', description: 'Ми зв\'яжемося з вами найближчим часом.' });
+      setLeadName('');
+      setLeadPhone('');
+    } catch {
+      toast({ title: 'Помилка', description: 'Спробуйте ще раз пізніше.', variant: 'destructive' });
+    } finally {
+      setSending(false);
+    }
+  };
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -394,14 +424,20 @@ const Index = () => {
             <div className="bg-background/60 backdrop-blur rounded-3xl p-8 border border-border space-y-4">
               <h3 className="font-display font-bold text-xl mb-2">Безкоштовне заняття</h3>
               <input
+                value={leadName}
+                onChange={(e) => setLeadName(e.target.value)}
                 placeholder="Ваше ім'я"
                 className="w-full px-5 py-3.5 rounded-2xl border border-border bg-secondary/40 focus:border-primary outline-none transition-colors placeholder:text-muted-foreground"
               />
               <input
+                value={leadPhone}
+                onChange={(e) => setLeadPhone(e.target.value)}
                 placeholder="Телефон"
                 className="w-full px-5 py-3.5 rounded-2xl border border-border bg-secondary/40 focus:border-primary outline-none transition-colors placeholder:text-muted-foreground"
               />
-              <Button className="w-full rounded-full font-semibold h-12 text-base">Залишити заявку</Button>
+              <Button onClick={submitLead} disabled={sending} className="w-full rounded-full font-semibold h-12 text-base">
+                {sending ? 'Надсилаємо...' : 'Залишити заявку'}
+              </Button>
               <p className="text-xs text-muted-foreground text-center">
                 Натискаючи кнопку, ви погоджуєтесь з політикою конфіденційності
               </p>

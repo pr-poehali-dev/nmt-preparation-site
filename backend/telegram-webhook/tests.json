@@ -1,0 +1,19 @@
+{
+  "tests": [
+    {
+      "name": "OPTIONS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Start command from user",
+      "method": "POST",
+      "path": "/",
+      "body": {"message": {"text": "/start", "chat": {"id": 123456, "username": "testuser", "first_name": "Test"}}},
+      "expectedStatus": 200,
+      "expectedBody": {"ok": true},
+      "bodyMatcher": "partial"
+    }
+  ]
+}
