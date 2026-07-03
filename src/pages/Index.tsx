@@ -65,54 +65,60 @@ const REVIEWS = [
 
 const QUIZ = [
   {
+    subject: 'Математика',
+    icon: 'Calculator',
     q: 'Скільки коренів має рівняння x² − 5x + 6 = 0?',
     options: ['Один корінь', 'Два корені', 'Жодного кореня', 'Безліч коренів'],
     correct: 1,
   },
   {
-    q: 'У якому році відбулася Битва під Крутами?',
-    options: ['1917', '1918', '1920', '1921'],
-    correct: 1,
-  },
-  {
-    q: 'Скільки букв в українському алфавіті?',
-    options: ['30', '31', '32', '33'],
-    correct: 3,
-  },
-  {
-    q: 'Чому дорівнює похідна функції f(x) = x²?',
-    options: ['x', '2x', 'x²', '2'],
-    correct: 1,
-  },
-  {
-    q: 'Хто був гетьманом України під час Полтавської битви?',
-    options: ['Богдан Хмельницький', 'Іван Мазепа', 'Павло Скоропадський', 'Петро Дорошенко'],
-    correct: 1,
-  },
-  {
-    q: 'Яка одиниця вимірювання сили в системі СІ?',
-    options: ['Джоуль', 'Ватт', 'Ньютон', 'Паскаль'],
-    correct: 2,
-  },
-  {
+    subject: 'Українська мова',
+    icon: 'BookOpen',
     q: 'Яка частина мови відповідає на питання "який? чий?"',
     options: ['Іменник', 'Прикметник', 'Дієслово', 'Прислівник'],
     correct: 1,
   },
   {
-    q: 'Яка найбільша річка України?',
-    options: ['Південний Буг', 'Дністер', 'Дніпро', 'Дунай'],
+    subject: 'Історія України',
+    icon: 'Landmark',
+    q: 'У якому році відбулася Битва під Крутами?',
+    options: ['1917', '1918', '1920', '1921'],
+    correct: 1,
+  },
+  {
+    subject: 'Фізика',
+    icon: 'Atom',
+    q: 'Яка одиниця вимірювання сили в системі СІ?',
+    options: ['Джоуль', 'Ватт', 'Ньютон', 'Паскаль'],
     correct: 2,
   },
   {
+    subject: 'Хімія',
+    icon: 'FlaskConical',
+    q: 'Яка хімічна формула кухонної солі?',
+    options: ['CaCO₃', 'NaCl', 'H₂SO₄', 'NaOH'],
+    correct: 1,
+  },
+  {
+    subject: 'Англійська',
+    icon: 'Globe',
+    q: 'Виберіть правильну форму дієслова: "She ___ to school every day."',
+    options: ['go', 'goes', 'going', 'gone'],
+    correct: 1,
+  },
+  {
+    subject: 'Біологія',
+    icon: 'Leaf',
     q: 'Скільки хромосом у клітинах людини?',
     options: ['23', '44', '46', '48'],
     correct: 2,
   },
   {
-    q: 'Чому дорівнює сума кутів трикутника?',
-    options: ['90°', '180°', '270°', '360°'],
-    correct: 1,
+    subject: 'Географія',
+    icon: 'Map',
+    q: 'Яка найбільша річка України?',
+    options: ['Південний Буг', 'Дністер', 'Дніпро', 'Дунай'],
+    correct: 2,
   },
 ];
 
@@ -312,13 +318,17 @@ const Index = () => {
               <Icon name="ClipboardCheck" size={14} className="text-primary" /> Самоперевірка
             </div>
             <h2 className="font-display font-extrabold text-4xl md:text-5xl tracking-tight mb-3">Онлайн-тест НМТ</h2>
-            <p className="text-muted-foreground text-lg">Перевір свій рівень прямо зараз — 3 запитання.</p>
+            <p className="text-muted-foreground text-lg">По одному питанню з кожного предмета — перевір себе прямо зараз.</p>
           </div>
 
           <div className="bg-card rounded-3xl p-8 md:p-10 border border-border card-shadow">
             {!finished ? (
               <>
                 <div className="flex items-center justify-between mb-6">
+                  <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
+                    <Icon name={QUIZ[active].icon} size={16} />
+                    {QUIZ[active].subject}
+                  </span>
                   <span className="text-sm text-muted-foreground">
                     Питання {active + 1} з {QUIZ.length}
                   </span>
