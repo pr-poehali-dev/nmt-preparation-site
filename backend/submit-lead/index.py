@@ -1,7 +1,7 @@
 import json
 import os
 import urllib.request
-import psycopg2
+import psycopg2  # noqa: F401
 
 
 def handler(event: dict, context) -> dict:

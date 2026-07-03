@@ -1,6 +1,6 @@
 import json
 import os
-import psycopg2
+import psycopg2  # noqa: F401
 
 
 def handler(event: dict, context) -> dict:

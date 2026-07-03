@@ -78,12 +78,47 @@ const QUIZ = [
     options: ['30', '31', '32', '33'],
     correct: 3,
   },
+  {
+    q: 'Чому дорівнює похідна функції f(x) = x²?',
+    options: ['x', '2x', 'x²', '2'],
+    correct: 1,
+  },
+  {
+    q: 'Хто був гетьманом України під час Полтавської битви?',
+    options: ['Богдан Хмельницький', 'Іван Мазепа', 'Павло Скоропадський', 'Петро Дорошенко'],
+    correct: 1,
+  },
+  {
+    q: 'Яка одиниця вимірювання сили в системі СІ?',
+    options: ['Джоуль', 'Ватт', 'Ньютон', 'Паскаль'],
+    correct: 2,
+  },
+  {
+    q: 'Яка частина мови відповідає на питання "який? чий?"',
+    options: ['Іменник', 'Прикметник', 'Дієслово', 'Прислівник'],
+    correct: 1,
+  },
+  {
+    q: 'Яка найбільша річка України?',
+    options: ['Південний Буг', 'Дністер', 'Дніпро', 'Дунай'],
+    correct: 2,
+  },
+  {
+    q: 'Скільки хромосом у клітинах людини?',
+    options: ['23', '44', '46', '48'],
+    correct: 2,
+  },
+  {
+    q: 'Чому дорівнює сума кутів трикутника?',
+    options: ['90°', '180°', '270°', '360°'],
+    correct: 1,
+  },
 ];
 
 const Index = () => {
   const { toast } = useToast();
   const [active, setActive] = useState(0);
-  const [answers, setAnswers] = useState<(number | null)[]>([null, null, null]);
+  const [answers, setAnswers] = useState<(number | null)[]>(Array(QUIZ.length).fill(null));
   const [finished, setFinished] = useState(false);
   const [leadName, setLeadName] = useState('');
   const [leadPhone, setLeadPhone] = useState('');
@@ -128,7 +163,7 @@ const Index = () => {
   };
 
   const restart = () => {
-    setAnswers([null, null, null]);
+    setAnswers(Array(QUIZ.length).fill(null));
     setActive(0);
     setFinished(false);
   };
@@ -259,33 +294,50 @@ const Index = () => {
                 </div>
                 <h3 className="font-display font-bold text-2xl mb-6">{QUIZ[active].q}</h3>
                 <div className="space-y-3 mb-8">
-                  {QUIZ[active].options.map((opt, i) => (
-                    <button
-                      key={i}
-                      onClick={() => selectAnswer(i)}
-                      className={`w-full text-left px-5 py-4 rounded-2xl border transition-all ${
-                        answers[active] === i
-                          ? 'border-primary bg-primary/10 text-foreground'
-                          : 'border-border hover:border-primary/40 text-muted-foreground hover:text-foreground'
-                      }`}
-                    >
-                      <span
-                        className={`inline-flex items-center justify-center w-7 h-7 rounded-lg text-sm font-bold mr-3 ${
-                          answers[active] === i ? 'bg-primary text-primary-foreground' : 'bg-secondary'
-                        }`}
+                  {QUIZ[active].options.map((opt, i) => {
+                    const isAnswered = answers[active] !== null;
+                    const isSelected = answers[active] === i;
+                    const isCorrectOpt = i === QUIZ[active].correct;
+
+                    let stateClasses = 'border-border hover:border-primary/40 text-muted-foreground hover:text-foreground';
+                    let badgeClasses = 'bg-secondary';
+                    if (isAnswered) {
+                      if (isCorrectOpt) {
+                        stateClasses = 'border-emerald-500 bg-emerald-500/10 text-foreground';
+                        badgeClasses = 'bg-emerald-500 text-white';
+                      } else if (isSelected) {
+                        stateClasses = 'border-red-500 bg-red-500/10 text-foreground';
+                        badgeClasses = 'bg-red-500 text-white';
+                      } else {
+                        stateClasses = 'border-border opacity-50 text-muted-foreground';
+                      }
+                    }
+
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => !isAnswered && selectAnswer(i)}
+                        disabled={isAnswered}
+                        className={`w-full flex items-center justify-between text-left px-5 py-4 rounded-2xl border transition-all ${stateClasses}`}
                       >
-                        {String.fromCharCode(65 + i)}
-                      </span>
-                      {opt}
-                    </button>
-                  ))}
+                        <span className="flex items-center">
+                          <span className={`inline-flex items-center justify-center w-7 h-7 rounded-lg text-sm font-bold mr-3 ${badgeClasses}`}>
+                            {String.fromCharCode(65 + i)}
+                          </span>
+                          {opt}
+                        </span>
+                        {isAnswered && isCorrectOpt && <Icon name="CheckCircle2" size={20} className="text-emerald-500 shrink-0" />}
+                        {isAnswered && isSelected && !isCorrectOpt && <Icon name="XCircle" size={20} className="text-red-500 shrink-0" />}
+                      </button>
+                    );
+                  })}
                 </div>
                 <Button
                   onClick={nextQ}
                   disabled={answers[active] === null}
                   className="w-full rounded-full font-semibold h-12 text-base"
                 >
-                  {active < QUIZ.length - 1 ? 'Далі' : 'Показати результат'}
+                  {active < QUIZ.length - 1 ? 'Далі питання' : 'Показати результат'}
                   <Icon name="ArrowRight" size={18} className="ml-1" />
                 </Button>
               </>
