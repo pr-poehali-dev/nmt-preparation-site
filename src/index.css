@@ -4,33 +4,33 @@
 
 @layer base {
   :root {
-    --background: 250 40% 99%;
-    --foreground: 258 60% 12%;
+    --background: 240 10% 6%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 258 60% 12%;
+    --card: 240 8% 10%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 258 60% 12%;
+    --popover: 240 8% 10%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 262 83% 58%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 152 76% 52%;
+    --primary-foreground: 240 10% 6%;
 
-    --secondary: 84 81% 55%;
-    --secondary-foreground: 258 60% 12%;
+    --secondary: 240 6% 16%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 258 30% 96%;
-    --muted-foreground: 258 15% 45%;
+    --muted: 240 6% 14%;
+    --muted-foreground: 240 5% 60%;
 
-    --accent: 84 81% 55%;
-    --accent-foreground: 258 60% 12%;
+    --accent: 152 76% 52%;
+    --accent-foreground: 240 10% 6%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 258 25% 90%;
-    --input: 258 25% 90%;
-    --ring: 262 83% 58%;
+    --border: 240 6% 18%;
+    --input: 240 6% 18%;
+    --ring: 152 76% 52%;
 
     --radius: 1rem;
 
@@ -102,10 +102,10 @@
 
 @layer utilities {
   .font-display {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Syne", sans-serif;
   }
   .text-gradient {
-    background: linear-gradient(135deg, hsl(262 83% 58%), hsl(320 85% 60%));
+    background: linear-gradient(135deg, hsl(152 76% 52%), hsl(170 80% 60%));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -113,22 +113,26 @@
   .bg-hero {
     background:
       radial-gradient(
-        circle at 15% 20%,
-        hsl(262 83% 58% / 0.25),
-        transparent 45%
+        circle at 20% 10%,
+        hsl(152 76% 52% / 0.14),
+        transparent 40%
       ),
       radial-gradient(
-        circle at 85% 30%,
-        hsl(84 81% 55% / 0.28),
-        transparent 42%
-      ),
-      radial-gradient(
-        circle at 50% 90%,
-        hsl(320 85% 60% / 0.2),
-        transparent 45%
+        circle at 85% 25%,
+        hsl(152 76% 52% / 0.08),
+        transparent 40%
       );
   }
+  .bg-grid {
+    background-image:
+      linear-gradient(hsl(240 6% 18% / 0.6) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(240 6% 18% / 0.6) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
   .card-shadow {
-    box-shadow: 0 20px 50px -20px hsl(262 83% 58% / 0.35);
+    box-shadow: 0 24px 60px -24px hsl(152 76% 52% / 0.25);
+  }
+  .glow {
+    box-shadow: 0 0 40px -8px hsl(152 76% 52% / 0.5);
   }
 }
